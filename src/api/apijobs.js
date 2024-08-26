@@ -82,3 +82,18 @@ export async function updateHiringStatus(token, {job_id}, isOpen) {
 
     return data;
 }
+
+export async function addNewJob(token, jobData) {
+    const superbase = await superbaseClient(token);
+
+    console.log('Job Data', jobData);
+
+    const {data, error} = await superbase.from('jobs').insert([jobData]).select();
+
+    if (error) {
+        console.error('Error adding job', error);
+        return null;
+    }
+
+    return data;
+}
