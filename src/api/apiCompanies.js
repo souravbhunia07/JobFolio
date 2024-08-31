@@ -10,11 +10,13 @@ export async function getCompanies(token) {
         return null;
     }
 
+    console.log('Companies', data);
+
     return data;
 }
 
 // Add Company
-export async function addNewCompany(token, companyData) {
+export async function addNewCompany(token, _, companyData) {
     const supabase = await superbaseClient(token);
 
     console.log('Company Data', companyData);

@@ -16,22 +16,27 @@ const JobListing = () => {
   const [company_id, setCompany_id] = useState('');
   const {isLoaded} = useUser();
 
-  const {fn:fnJobs, data:jobs, loading:loadingJobs} = useFetch(getJobs, {location, company_id, searchQuery});
+  const {loading:loadingJobs, data:jobs, fn:fnJobs} = useFetch(getJobs, {location, company_id, searchQuery});
 
-  const {fn:fnCompanies, data:companies} = useFetch(getCompanies);
+  const {data:companies, fn:fnCompanies} = useFetch(getCompanies);
 
   useEffect(() => {
     if (isLoaded) {
+      // console.log("companies", fnCompanies());
       fnCompanies(); //hook to fetch companies
     }
   }, [isLoaded]);
 
-  // console.log(jobs);
+  
   useEffect(() => {
+    console.log("isLoaded", isLoaded);
     if (isLoaded) {
+      console.log("jobs", fnJobs());
       fnJobs(); //hook to fetch jobs
     }
   }, [isLoaded, location, company_id, searchQuery]);
+
+  console.log('jobs', jobs);
 
   if(!isLoaded) {
     return <BarLoader className='mb-4' width={"100%"} color='#36d7b7' />;

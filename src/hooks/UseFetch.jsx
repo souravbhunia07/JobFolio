@@ -18,7 +18,7 @@ const useFetch = (cb, options= {}) => {
                 template: 'superbase',
             });
 
-            const data = await cb(superbaseAccessToken, ...args);
+            const data = await cb(superbaseAccessToken, options, ...args);
             setData(data);
             setError(null);
         } catch (error) {

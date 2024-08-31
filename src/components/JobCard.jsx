@@ -5,6 +5,7 @@ import { Heart, MapPinIcon, Trash2Icon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { savedJobs } from '@/api/apijobs';
 import { Button } from './ui/button';
+import useFetch from '@/hooks/UseFetch';
 
 const JobCard = ({
     job,
@@ -13,13 +14,13 @@ const JobCard = ({
     onJobSaved=()=>{},
 }) => {
 
+    const [saved, setSaved] = useState(savedInit);
+
     const {fn:fnSavedJobs, data:SavedJobs, loading:loadingSavedJobs} = useFetch(savedJobs, {
         alreadySaved: saved,
     });
 
     const {user} = useUser();
-
-    const [saved, setSaved] = useState(savedInit);
 
     const handleSaveJob = async () => {
         await fnSavedJobs({
@@ -59,7 +60,8 @@ const JobCard = ({
                 </div>
             </div>
             <hr />
-            {job.description.subsring(0, job.description.indexOf('.'))}...
+            {/* {job.description.substring(0, job.description.indexOf('.'))}... */}
+            {job.description.substring(0, 100)}...
         </CardContent>
         <CardFooter className="flex gap-2">
             <Link to={`/job/${job.id}`} className='flex-1'>

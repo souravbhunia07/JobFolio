@@ -3,8 +3,12 @@ import superbaseClient from "@/utils/superbase"
 export async function getJobs(token, { location, company_id, searchQuery }) {
     const superbase = await superbaseClient(token);
 
-    let query = await superbase.from('jobs').select('*, company:companies(name, logo_url), saved:saved_jobs(id)');
+    console.log("test");
 
+    let query = superbase
+    .from("jobs")
+    .select("*, saved: saved_jobs(id), company: companies(name,logo_url)");
+    
     if (location) {
         query = query.eq('location', location); // filter by location, eq is equal to
     }
@@ -23,6 +27,8 @@ export async function getJobs(token, { location, company_id, searchQuery }) {
         console.error('Error fetching jobs', error);
         return null;
     }
+
+    console.log('Jobs', data);
 
     return data;
 }
@@ -83,7 +89,7 @@ export async function updateHiringStatus(token, {job_id}, isOpen) {
     return data;
 }
 
-export async function addNewJob(token, jobData) {
+export async function addNewJob(token, _, jobData) {
     const superbase = await superbaseClient(token);
 
     console.log('Job Data', jobData);
